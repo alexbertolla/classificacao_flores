@@ -1,15 +1,11 @@
-import os
-import glob
-import datetime
-import tarfile
-import urllib.request
-
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
-import mahotas
 import numpy as np
+import mahotas
 import cv2
+import os
 import h5py
+
 
 #--------------------
 # tunable-parameters
@@ -41,7 +37,33 @@ def color_histogram(image, mask=None):
     return hist.flattern()
 
 
+#get the training labels
+train_labels = os.listdir(train_path)
 
+#sort the training labels
+train_labels.sort()
+print(train_labels)
+
+#empty lists to hold feature vector and labels
+global_features = []
+labels = []
+
+#loop over the training data sub-folders
+for training_name in train_labels:
+    #join the training data path and each species training folder
+    dir = os.path.join(train_path, training_name)
+
+    #get the current training label
+    current_label = training_name
+
+    #loop over the imagens in each sub-folder
+    for x in range(1, images_per_class+1):
+        #get the image file name
+        file = dir + "/" + str(x) + ".jpg"
+
+        #read the image and resize it to a fixed-size
+        image = cv2.imread(file)
+        print(image)
 
 
 
